@@ -16,6 +16,11 @@ export default createStore({
           path_browser: "asignar",
           name_module: "Asignar Formulario",
           name_controller: "AsignGFrmView"
+        },
+        {
+          path_browser: "tmp",
+          name_module: "Temporal",
+          name_controller: "Tmp"
         }
       ]
     }, 

@@ -1,6 +1,11 @@
 <template>
     <section>
+        <v-app-bar clipped-left color="#1D62A1" density="compact" class="text-white">
+            <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
 
+            <v-toolbar-title>ADMINISTRATOR EPI</v-toolbar-title>
+            <v-spacer></v-spacer>
+        </v-app-bar>
 
         <v-navigation-drawer v-model="drawerRight" app clipped left>
             <v-list-item dense>
@@ -34,12 +39,7 @@
             </template>
         </v-navigation-drawer>
 
-        <v-app-bar clipped-left color="#1D62A1" density="compact" class="text-white">
-            <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
-
-            <v-toolbar-title>ADMINISTRATOR EPI</v-toolbar-title>
-            <v-spacer></v-spacer>
-        </v-app-bar>
+        
 
 
     </section>
