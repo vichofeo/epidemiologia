@@ -1,4 +1,13 @@
 <template>
+
+
+   
+
+
+
+
+
+
     <v-card class="mx-auto" density="compact">
         <v-card-item class="text-body-1">
             <v-toolbar  density="compact" rounded>
@@ -64,6 +73,7 @@ export default {
             end: null,
         },
         locations: ["Australia", "Barbados", "Chile", "Denmark", "Ecuador", "France"],
+        dialog: false,
     }),
     methods: {
         k21() {

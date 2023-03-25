@@ -1,7 +1,8 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card class="mx-auto text-body-1">
     <v-card-text>
-      <v-row v-for="i in repeat">
+      <v-row dense no-gutters v-for="i in repeat">
+        <v-col>
         <v-text-field
           density="compact"
           variant="underlined"
@@ -15,6 +16,7 @@
           type="text"
           @click:clear=" clearMessage(i)"
         ></v-text-field>
+      </v-col>
       </v-row>
     </v-card-text>
 

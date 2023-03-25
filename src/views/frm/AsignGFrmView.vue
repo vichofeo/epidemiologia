@@ -49,17 +49,21 @@
     </v-card-text>
 
   </v-card>
-  {{ countries }}
-  <frm-section />
+  <!-- secciones -->
+  <v-card-text>
+    <frm-section :sections="datosFrm.sections"/>
+  </v-card-text>
+  
 </template>
 
 <script>
 import ListBox from "@/components/formsUtils/ListBox.vue";
 import TableDataUpDel from '@/components/formsUtils/TableDataUpDel.vue';
 import FrmSection from '@/components/formsUtils/FrmSection.vue';
-import {DATOS} from '@/assets/datosFrm'
 
-import CountryService from '@/service/CountryService';
+import {getDataFrm} from '@/service/data/datos'
+
+
 export default {
   components: { ListBox,  TableDataUpDel, FrmSection },
   data: () => ({
@@ -84,8 +88,9 @@ export default {
       {id:103, name: "Cupcake", calories: 305}
       
     ],
-    datosFrm: null,
-    countries: [],
+    //datosFrm: null,
+    datosFrm: [],
+    
   }),
   methods: {
     onChangeSec(data) {
@@ -100,23 +105,22 @@ export default {
     deleteSecFrm(idx){
       alert("idx para eliminar:"+idx)
     },
-    initData(){
-      
-      this.datosFrm = DATOS
+    initData(){      
+      this.datosFrm = getDataFrm()
       console.log(this.datosFrm)
     }
   },
-  mounted() {
+  
+ 
+	mounted() {
     this.initData()
-    this.countryService.getCountries().then((countries) => {
-			this.countries = countries;
+    /*this.datosService.getDatos.then((datosFrm) => {
+			this.datosFrm = datosFrm;
 		});
-  },
+    */
 
-  created() {
-		this.countryService = new CountryService();
-	},
-	
+    
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
-export default class CountryService {
+export default class DatosService {
 
-    getCountries() {
+    getDatos() {
         return fetch('data/datos.json').then(res => res.json()).then(d => d.data);
     }
 }

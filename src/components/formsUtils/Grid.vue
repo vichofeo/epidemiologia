@@ -116,7 +116,7 @@ export default {
       //alert("slavando");
       //recompone mensaje pregunta respuesta
       this.answer = this.rmessage.map((obj, i) => ({
-        ask: obj,
+        question: obj,
         order: i,
         type: this.answerType,
         answers: this.cmessage.map((o, j) => ({

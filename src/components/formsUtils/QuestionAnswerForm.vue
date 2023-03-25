@@ -1,8 +1,8 @@
 <template>
-  <v-card class="mx-auto" variant="text">
+  <v-card  variant="flat" >
     <v-card-title>
       <v-row>
-        <v-col cols="6" xs="6" sm="4" xl="4" md="6" lg="6">
+        <v-col cols="6" xs="6" sm="6" xl="6" md="6" lg="6">
           <v-text-field
             density="compact"
             variant="underlined"
@@ -15,7 +15,7 @@
             
           ></v-text-field>
         </v-col>
-        <v-col cols="6" xs="6" sm="4" xl="4" md="6" lg="6">
+        <v-col cols="6" xs="6" sm="6" xl="6" md="6" lg="6">
           <v-combobox
             variant="underlined"
             v-model="select"
@@ -49,9 +49,7 @@
       <radio-check-text :answerType="select.value" :saveData="saveData" v-if="select.value <= 2" />
       <grid :answerType="select.value" :saveData="saveData" v-if="select.value == 3" />
     </v-card-text>
-    <v-card-actions>
-      <v-btn variant="outlined"> Button </v-btn>
-    </v-card-actions>
+    
   </v-card>
   {{ answer }}
 </template>
@@ -85,7 +83,7 @@ export default {
   methods: {
    saveData(data){
     this.answer = {
-        ask:this.message,
+        question:this.message,
         order:0,
         type: this.select.value,
         answers: data

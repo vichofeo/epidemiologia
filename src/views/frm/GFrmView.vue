@@ -23,7 +23,7 @@
           <v-row dense>
             <v-col cols="12" xs="12" sm="12" xl="12" md="12" lg="12">
             <v-window v-model="tab">
-              <v-window-item value="t1"> <ask/> </v-window-item>
+              <v-window-item value="t1"> <question-answer-form/> </v-window-item>
 
               <v-window-item value="t2"> Two </v-window-item>
 
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Ask from '@/components/formsUtils/Ask.vue';
+import QuestionAnswerForm from '@/components/formsUtils/QuestionAnswerForm.vue';
 /**
  * 0  -> 1 radio
  * 1  -> 2 check
@@ -48,7 +48,7 @@ import Ask from '@/components/formsUtils/Ask.vue';
  */
 
 export default {
-  components: {Ask},
+components:{QuestionAnswerForm},
   data: () => ({
     tab: null,
   }),
