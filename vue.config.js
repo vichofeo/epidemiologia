@@ -1,5 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
+  publicPath: '/epidemiologia',
   transpileDependencies: true,
 
   pluginOptions: {
@@ -8,3 +9,4 @@ module.exports = defineConfig({
 		}
   }
 })
+
