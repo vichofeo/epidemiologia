@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkepidemiologia"]=self["webpackChunkepidemiologia"]||[]).push([[443],{2922:function(e,a,n){n.r(a),n.d(a,{default:function(){return p}});var t=n(3396),i=n(7139);const s={class:"about"},u=(0,t._)("h1",null,"This is an about page",-1);function o(e,a){return(0,t.wg)(),(0,t.iD)("div",s,[u,(0,t.Uk)(" "+(0,i.zw)(e.$store.state.pages),1)])}var r=n(89);const c={},l=(0,r.Z)(c,[["render",o]]);var p=l}}]);
+//# sourceMappingURL=about.71c43c1c.js.map
