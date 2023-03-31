@@ -5,6 +5,7 @@
     :items="items"
     :label="label"    
     density="compact"
+    @update:modelValue="onchangeHere"
   >
     <template v-slot:selection="data">
       <v-chip
@@ -49,12 +50,13 @@ export default {
     }
   }, 
   watch:{
-    select: {
+    /*select: {
       deep: true,
       handler: function () {
         this.onchangeHere();
       },
     },
+    */
   }
 
 };

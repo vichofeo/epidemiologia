@@ -28,7 +28,7 @@
                 :prepend-icon="m.icon" 
                 :title="m.name_module"
                     active-color="primary" 
-                    :to="m.path_browser">
+                    :to="`${menu.path_browser}/${m.path_browser}`">
 
                 </v-list-item>
             </v-list>

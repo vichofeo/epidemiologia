@@ -1,78 +1,107 @@
 <template>
-  <v-card
-    class="mx-auto"
-    variant="outlined"
-    :style="'border: 1px solid #1D62A1;'"
-    density="compact"
-    elevation="0"
+  <v-container>
+    <v-row no-gutters>
+      <v-col>
+        <!--
+        <list-box :label="cLabel[i]" 
+        :items="obj" 
+        :selected="cSelected[i]"
+          :onChange="getInfoCombos" 
+          v-for="(obj, i) in comboxes"
+          /> -->
+        <v-combobox
+          v-model="cSelected[ii]"
+          :items="obj"
+          :label="cLabel[ii]"
+          
+          class="ml-auto"
+          density="compact"
+          v-for="(obj, ii) in comboxes"
+          @update:model-value="getInfoCombos()"
+          :key="'comboxes_' + ii"
+        >
+          <template v-slot:selection="data">
+            <v-chip
+              variant="text"
+              :key="JSON.stringify(data.item)"
+              v-bind="data.attrs"
+              :model-value="data.selected"
+              :disabled="data.disabled"
+              size="small"
+              @click:close="data.parent.selectItem(data.item)"
+            >
+              <template v-slot:prepend>
+                <v-avatar color="primary" class="bg-accent text-uppercase" start>{{
+                  data.item.title.slice(0, 1)
+                }}</v-avatar>
+              </template>
+              {{ data.item.title }}
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-col>
+      <v-col>
+        <h4>Entidades de salud</h4>
+        <v-list lines="one" density="compact">
+  <v-list-item
+    v-for="item in hospitales"
+    :key="item.establecimiento"
+    :title="item.establecimiento"
+    
+  ></v-list-item>
+</v-list>
+      </v-col>
+      <v-col>
+      
+        <list-box
+          :label="`Seleccione un Grupo - Formulario`"
+          :items="secItems"
+          :selected="secSelected"
+          :onChange="onChangeSec"
+        />
+        <list-box
+          :label="`Seleccione Formulario`"
+          :items="frmItems"
+          :selected="frmSelected"
+          :onChange="onChangeFrm"
+        />
+      
+      <v-btn color="success">Guardar asignacion</v-btn>
+      </v-col>
+    
+      
+    </v-row>
+  </v-container>
+
+  <!-- ************ loader ************* -->
+  <v-dialog
+    v-model="swLoader"
+    hide-overlay
+    persistent
+    width="300"
+    style="z-index: 29990000"
   >
-    <v-sheet outlined color="blue">
-      <v-row dense no-gutters>
-        <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
-          Seleccione un grupo y un formulario o cree su formulario en el grupo
-        </v-col>
-        <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
-          <v-row dense >
-            <v-col cols="8">
-              <list-box
-                :label="`Seleccione un Grupo - Formulario`"
-                :items="secItems"
-                :selected="secSelected"
-                :onChange="onChangeSec"
-              />
-            </v-col>
-            <v-col cols="4" >
-              <v-btn color="success" variant="flat" size="small">Nuevo Grupo</v-btn>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col cols="8">
-            <list-box
-              :label="`Seleccione Formulario`"
-              :items="frmItems"
-              :selected="frmSelected"
-              :onChange="onChangeFrm"
-            />
-          </v-col><v-col cols="4" >            
-            <v-btn color="success" variant="flat" size="small">Nuevo Formulario</v-btn>
-          </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-sheet>
-
-    <v-card-text>
-      {{ frmSelected.title }}
-      <table-data-up-del :items="items" :titles="['Name','calorias']" :fmodify="modifySecFrm" :fdelete="deleteSecFrm"/>
-      {{ secSelected }}
-      {{ frmSelected }}
-    </v-card-text>
-
-  </v-card>
-  <!-- secciones -->
-  <v-card-text>
-    <frm-section :sections="datosFrm.sections"/>
-  </v-card-text>
-  
+    <v-card color="primary" dark>
+      <v-card-text>
+        Buscando datos
+        <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
+import * as srv from "@/service/multiPolygon.service";
 import ListBox from "@/components/formsUtils/ListBox.vue";
-import TableDataUpDel from '@/components/formsUtils/TableDataUpDel.vue';
-import FrmSection from '@/components/formsUtils/FrmSection.vue';
-
-import {getDataFrm} from '@/service/data/datos'
-
-
 export default {
-  components: { ListBox,  TableDataUpDel, FrmSection },
+  components: { ListBox },
   data: () => ({
-    secSelected: { value: 0, title: "seccion 000" },
+    secSelected: { value: 0, title: "Grupo Formulario 000" },
     secItems: [
-      { value: 0, title: "seccion 000" },
-      { value: 1, title: "seccion 001" },
-      { value: 2, title: "seccion 002" },
-      { value: 3, title: "seccion 003" },
+      { value: 0, title: "Grupo Formulario 000" },
+      { value: 1, title: "Grupo Formulario 001" },
+      { value: 2, title: "Grupo Formulario 002" },
+      { value: 3, title: "Grupo Formulario 003" },
     ],
     frmSelected: { value: 0, title: "formu 000" },
     frmItems: [
@@ -81,16 +110,23 @@ export default {
       { value: 2, title: "formu 002" },
       { value: 3, title: "formu 003" },
     ],
-    items: [
-      {id:100, name: "Frozen Yogurt",calories: 159},
-      {id:101, name: "Ice cream sandwich", calories: 237},
-      {id:102, name: "Eclair", calories: 262},
-      {id:103, name: "Cupcake", calories: 305}
-      
+    cSelected: [
+      //{ value: "B - Seguridad Social (CAJAS)", title: "B - Seguridad Social (CAJAS)" },
+      { value: "Seguridad Social (CAJAS)", title: "Seguridad Social (CAJAS)" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
+      { value: "-1", title: "-Todos-" },
     ],
-    //datosFrm: null,
-    datosFrm: [],
-    
+    comboxes: [],
+    swLoader: false,
+    cLabel: [],
+    hospitales: [],
+
+    indexCSelected: -1,
   }),
   methods: {
     onChangeSec(data) {
@@ -99,27 +135,38 @@ export default {
     onChangeFrm(data) {
       this.frmSelected = data;
     },
-    modifySecFrm(idx){
-      alert("idx para moduifcoa:"+idx)
-    },
-    deleteSecFrm(idx){
-      alert("idx para eliminar:"+idx)
-    },
-    initData(){      
-      this.datosFrm = getDataFrm()
-      console.log(this.datosFrm)
-    }
-  },
-  
- 
-	mounted() {
-    this.initData()
-    /*this.datosService.getDatos.then((datosFrm) => {
-			this.datosFrm = datosFrm;
-		});
-    */
+    async getInfoCombos() {
+      
+      this.swLoader = true;
+      const res = await srv.getCombox(this.cSelected);
 
-    
+      
+      this.cSelected = res.body.listSelect.map((obj) => ({
+        value: obj.value,
+        title: obj.text,
+      }));
+
+      
+      const aux = res.body.listBox;
+      this.comboxes = aux.map((obj) => {
+        return obj.map((o) => {
+          return {
+            value: o.value,
+            title: o.text,
+          };
+        });
+      });
+
+      this.cLabel = res.body.listLabel;
+
+      this.hospitales = res.body.hospitales;
+      this.indexCSelected = res.body.indexDpto;
+      this.swLoader = false;
+      console.log(this.hospitales)
+    },
+  },
+  created() {
+    this.getInfoCombos();
   },
 };
 </script>

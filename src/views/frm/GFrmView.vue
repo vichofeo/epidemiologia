@@ -23,9 +23,9 @@
           <v-row dense>
             <v-col cols="12" xs="12" sm="12" xl="12" md="12" lg="12">
             <v-window v-model="tab">
-              <v-window-item value="t1"> <question-answer-form/> </v-window-item>
+              <v-window-item value="t1"> <frm-maker /> </v-window-item>
 
-              <v-window-item value="t2"> Two </v-window-item>
+              <v-window-item value="t2"> <frm-view /> </v-window-item>
 
               <v-window-item value="t3"> Three gfdg dfgdfgdf g dgdfgdfg</v-window-item>
             </v-window>
@@ -39,6 +39,8 @@
 
 <script>
 import QuestionAnswerForm from '@/components/formsUtils/QuestionAnswerForm.vue';
+import FrmMaker from '@/components/formsUtils/FrmMaker.vue';
+import FrmView from '@/components/formsUtils/FrmView.vue';
 /**
  * 0  -> 1 radio
  * 1  -> 2 check
@@ -48,7 +50,7 @@ import QuestionAnswerForm from '@/components/formsUtils/QuestionAnswerForm.vue';
  */
 
 export default {
-components:{QuestionAnswerForm},
+components:{QuestionAnswerForm, FrmMaker, FrmView},
   data: () => ({
     tab: null,
   }),

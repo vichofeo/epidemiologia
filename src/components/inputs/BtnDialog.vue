@@ -2,7 +2,7 @@
   <v-btn
     class="text-none ms-4 text-white"
     dark
-    @click="dialog = true"
+    
     variant="flat"
     size="small"
     color="success"
@@ -16,13 +16,14 @@
     :scrollable="true"
     
     persistent
-    :fullscreen="false"
+    :fullscreen="true"
       :scrim="false"
-    
+      activator="parent"
+      
   >
     <v-card>
-      <v-toolbar dark color="secondary">
-        <v-toolbar-title>Settings</v-toolbar-title>
+      <v-toolbar dark color="#1D62A1"  class="text-white">
+        <v-toolbar-title>Tools</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon dark @click="dialog = false">
           <v-icon>mdi-close</v-icon>

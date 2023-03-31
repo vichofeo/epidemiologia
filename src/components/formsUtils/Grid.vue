@@ -134,7 +134,7 @@ export default {
       this.message[i] = "";
     },
     moreRow() {
-      if (this.rows < 10) {
+      if (this.rows < 15) {
         this.rows++;
       }
     },
@@ -145,7 +145,7 @@ export default {
       }
     },
     moreColumn() {
-      if (this.columns < 10) {
+      if (this.columns < 15) {
         this.columns++;
       }
     },

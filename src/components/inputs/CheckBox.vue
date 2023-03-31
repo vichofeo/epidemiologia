@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container fluid>
+    
       <v-row no-gutters>
         <v-col cols="12" sm="4" md="4" v-for="(obj, i) in answers">
           <v-checkbox
@@ -14,7 +14,7 @@
       
 
       </v-row>
-    </v-container>
+    
   </div>
 </template>
 <script>

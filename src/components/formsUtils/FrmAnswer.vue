@@ -1,11 +1,11 @@
 <template>
-  <v-card class="text-body-1" density="compact">
-    <v-card-text>
+  <v-card class="text-body-1" density="compact" elevation="0" variant="flat">
+    
       <radio-btn-box v-if="type == 0" :answers="answers"/>
       <check-box v-if="type == 1" :answers="answers"/>
       <textfield-box v-if="type == 2" :answers="answers"/>
       <grid-box v-if="type == 3" :answers="answers"/>
-    </v-card-text>
+    
   </v-card>
 </template>
 
