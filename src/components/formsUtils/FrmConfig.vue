@@ -116,6 +116,8 @@ export default {
 
       this.frmSelected = res.selected;
       this.frmItems = res.items;
+
+      this.$store.commit('setFrm', this.frmSelected)
     },
     onChangeFrm(data) {
       this.frmSelected = data;
