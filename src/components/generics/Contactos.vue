@@ -1,15 +1,23 @@
 <template>
-
 <v-row dense no-gutters v-for="i in repeat">
-    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
-  <list-box-forms :label="`Tipo de Muestra`" :selected="muestraSelected" :items="muestraItems" :onChange="onChange"/>
+    <persona/>
+    
+      <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+  <list-box-forms :label="`Parentesco`" :selected="parentescoSelected" :items="parentescoItems" :onChange="onChange"/>
     </v-col>
     <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
-  <calendar-forms :label="`Fecha Muesta`"/>
+        <textfield-forms :label="`Direccion`" />
+    </v-col>  
+    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+        <textfield-forms :label="`Telefono`"/>
     </v-col>
     <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
-    <calendar-forms :label="`Fecha envio`"/>
+  <calendar-forms :label="`Fecha de Contacto`"/>
     </v-col>
+    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+        <textfield-forms :label="`Lugar de Contacto`"/>
+    </v-col>
+    
 </v-row>
 <v-spacer></v-spacer>
       <div >
@@ -33,15 +41,19 @@
 <script>
 import CalendarForms from '../inputs/CalendarForms.vue';
 import ListBoxForms from '../inputs/ListBoxForms.vue'
+import RadioBtnForms from '../inputs/RadioBtnForms.vue';
+import TextfieldForms from '../inputs/TextfieldForms.vue';
+import Persona from './Persona.vue';
 
 export default {
-  components: { ListBoxForms,  CalendarForms },
+  components: { ListBoxForms,  CalendarForms, RadioBtnForms, TextfieldForms, Persona },
 data:()=>({
     repeat: 1,
-    muestraSelected: {value:0, title:"Orina"},
-    muestraItems:[{value:0, title:"Orina"},
-    {value:1, title:"Sangre"},
-    {value:2, title:"Flema"}]
+    parentescoSelected: {value:0, title:"to"},
+    parentescoItems:[{value:0, title:"tio"},
+    {value:1, title:"Sobrino"},
+    {value:2, title:"Amigo"}],
+    radioCarnet:{label: "Vericado con carnet", options:[{value:'Y', label:"Si"}, {value:'N', label:"No"}]},
 }),
 methods:{
     onChange (datos){

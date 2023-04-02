@@ -3,7 +3,7 @@
     variant="solo"
     v-model="select"
     :items="items"
-    :label="label"    
+    :label="label"
     density="compact"
     @update:modelValue="onchangeHere"
   >
@@ -29,36 +29,38 @@
 </template>
 
 <script>
+import { reactive, ref } from "vue";
 export default {
   props: {
     items: { type: Array, default: [] },
-    selected: { type: Object, default: () => { }, },
+    selected: { type: Object, default: () => {} },
     label: { type: String, default: "Unknow" },
-    onChange: { type: Function, default() {
-        return 'Default function'
-      } },
-  },
-  data: ()=>({
-    select:{}
-  }),
-  mounted() {
-    this.select= this.selected
-  },
-  methods:{
-    onchangeHere(){        
-       this.onChange(this.select)
-    }
-  }, 
-  watch:{
-    /*select: {
-      deep: true,
-      handler: function () {
-        this.onchangeHere();
+    onChange: {
+      type: Function,
+      default() {
+        return "Default function";
       },
     },
-    */
-  }
+  },
 
+  
+
+  data:()=>({
+select:{}
+  }),
+methods:{
+  onchangeHere(){
+    this.onChange(this.select)
+  }
+},
+  watch: {
+    selected: {
+      deep: true,
+      handler: function (newValue, oldValue) {
+        this.select = newValue;
+      },
+    },
+  },
 };
 </script>
 

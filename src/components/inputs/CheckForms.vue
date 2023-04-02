@@ -1,0 +1,48 @@
+<template>
+    <div>
+      {{ label }}
+        <v-row no-gutters>
+          
+          <v-col cols="12" sm="4" md="4" v-for="(obj, i) in items">            
+            <v-checkbox
+              v-model="dataModel"
+              :label="obj.title"
+              color="orange-darken-3"
+              :value="obj.value"
+              hide-details
+              
+            ></v-checkbox>
+          </v-col>       
+        
+  
+        </v-row>
+      {{ dataModel }}
+    </div>
+  </template>
+  <script>
+   
+  export default {
+    props:{
+      items:{type: Array, default: []},
+      onClick: {type:Function, default() {return "Default function"; },},
+      name: {type:String, default:"default"},
+      label: {type:String, default:"default"}
+    },
+    data: () => ({
+      dataModel: [],
+    }),
+    methods: {
+        
+    },
+    watch: {
+      dataModel: {
+        deep: true,
+        handler: function (newValue, oldValue) {
+          
+          this.onClick({[`${this.name}`]: newValue})
+        },
+      },
+    },
+  };
+  </script>
+  

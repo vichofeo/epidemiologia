@@ -1,34 +1,40 @@
 <template>
-  <v-sheet class="bg-deep-purple pa-12" rounded>
-    <v-card class="mx-auto px-6 py-8">
-
+  
+  <v-row no-gutters dense>  
+<v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <v-text-field v-model="persona.dni_persona" :readonly="loading" :rules="[required]" class="mb-2" clearable
         label="Doc. Identidad - Compl"></v-text-field>
+</v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
 
       <v-text-field v-model="persona.primer_apellido" :readonly="loading" :rules="[required]" clearable
         label="Primer Apellido" placeholder="Primer Apellido"></v-text-field>
-
+</v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <v-text-field v-model="persona.segundo_apellido" :readonly="loading" clearable label="Segundo Apellido"
         placeholder="Segundo Apellido" />
+        </v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <v-text-field v-model="persona.casada_apellido" :readonly="loading" clearable label="Apellido de casada"
         placeholder="Apellido de casada" />
+        </v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <v-text-field v-model="persona.nombres" :readonly="loading" :rules="[required]" clearable label="Nombres"
         placeholder="Nombres" />
+        </v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <v-text-field v-model="persona.telefono" :readonly="loading" clearable label="Telefono" placeholder="Telefono" />
+      </v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <radio-btn-forms
         :items="{ label: 'Sexo', options: [{ label: 'Masculino', value: 'M' }, { label: 'Femenino', value: 'F' }] }" />
+        </v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
 <lugar-pais/>
+</v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
 <v-text-field v-model="persona.direccion" :readonly="loading" clearable label="Direccion" placeholder="Direccion" />
+</v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
 <v-text-field v-model="persona.zona" :readonly="loading" clearable label="Zona" placeholder="Barrio" />
+</v-col><v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
 <v-text-field v-model="persona.zona" :readonly="loading" clearable label="Barrio" placeholder="Barrio" />
-      <br>
+</v-col>
+      
 
-      <v-btn :disabled="!form" :loading="loading" block color="success" size="large" type="submit" variant="elevated">
-        Sign In
-      </v-btn>
-
-    </v-card>
-  </v-sheet>
+    
+  </v-row>
 </template>
 
 <script>

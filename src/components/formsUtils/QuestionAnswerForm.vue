@@ -45,7 +45,7 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      {{ select }}
+      
       <radio-check-text :answerType="select.value" :saveData="saveData" v-if="select.value <= 2" />
       <grid :answerType="select.value" :saveData="saveData" v-if="select.value == 3" />
     </v-card-text>
@@ -57,6 +57,7 @@
 <script>
 import Grid from "./Grid.vue";
 import RadioCheckText from "./RadioCheckText.vue";
+import * as srv from "@/service/GetData"
 /**
  * 0  -> 1 radio
  * 1  -> 2 check
@@ -65,17 +66,17 @@ import RadioCheckText from "./RadioCheckText.vue";
  *
  */
 export default {
+  name:"Question-Answer",
+  props:{
+    hereditaryFunction:{type: Function, default() {return null } },
+    
+  },
   components: { RadioCheckText, Grid },
   data: () => ({
     answer:[],
     message: "",
-    select: { value: 0, title: "Opcion Multiple" },
-    items: [
-      { value: 0, title: "Opcion Multiple" },
-      { value: 1, title: "Opcion por Casilla" },
-      { value: 2, title: "Abierta" },
-      { value: 3, title: "Grid" },
-    ],
+    select: { },
+    items: [],
   }),
 
   computed: {},
@@ -88,9 +89,17 @@ export default {
         type: this.select.value,
         answers: data
     }
-    
+    this.hereditaryFunction({[`${this.name}`]:this.answer})
+   },
+   async initialData(){
+    const data =  await srv.getTypeQuestion()
+    this.select = data.selected
+    this.items =  data.items
    }
   },
+  created(){
+    this.initialData()
+  }
 };
 </script>
 

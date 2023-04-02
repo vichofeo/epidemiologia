@@ -1,140 +1,100 @@
 <template>
-  <v-card
-    class="mx-auto"
-    variant="outlined"
-    :style="'border: 1px solid #1D62A1;'"
-    density="compact"
-    elevation="0"
-  >
-    <v-sheet outlined color="blue">
-      <v-row dense no-gutters>
-        <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
-          Seleccione un grupo y un formulario o cree su formulario en el grupo
-        </v-col>
-        <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
-          <v-row dense>
-            <v-col cols="8">
-              <list-box
-                :label="`Seleccione un Grupo - Formulario`"
-                :items="secItems"
-                :selected="secSelected"
-                :onChange="onChangeSec"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-btn color="success" variant="flat" size="small">Nuevo Grupo</v-btn>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col cols="8">
-              <list-box
-                :label="`Seleccione Formulario`"
-                :items="frmItems"
-                :selected="frmSelected"
-                :onChange="onChangeFrm"
-              /> </v-col
-            ><v-col cols="4">
-              <v-btn color="success" variant="flat" size="small">Nuevo Formulario</v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-sheet>
+  <v-row dense no-gutters >
+    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+      <list-box-forms :label="`Seleccione Grupo Formulario`" :selected="grpSelected" :items="grpItems" :name="`group`" :onChange="setValues"/>
+    </v-col>
+    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+      <list-box-forms :label="`Seleccione para que enfermedad es el Formulario`" :selected="enferSelected" :items="enferItems" :name="`enfermedad`" :onChange="setValues"/>
+    </v-col>
+  </v-row>
+  <check-forms :label="`Incluya formas predetermidad haciendo clic`" :items="frmopsItems" :name="`opcionales`" :onClick="setValues"/>
+  <v-row dense no-gutters >
+    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+  <TextfieldForms :label="`Codigo Formulario`"  :name="`cod_frm`" :onChange="setValues"/>
+  </v-col>
+  <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+  <TextfieldForms :label="`Nombre Formulario`"  :name="`name_frm`" :onChange="setValues"/>
+  </v-col>
+  <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
+  <TextfieldForms :label="`Descripcion`"  :name="`description`" :onChange="setValues"/>
+  </v-col>
+  </v-row>
+  <v-row dense no-gutters >
+    <v-divider/>
+    <v-spacer/>
+    <BtnNewForms :label="`Guardar`" :onClick="save"/>
+  </v-row>
 
-    <v-card-text>
-      {{ frmSelected.title }}
-      <table-data-up-del
-        :items="items"
-        :titles="['Name', 'calorias']"
-        :fmodify="modifySecFrm"
-        :fdelete="deleteSecFrm"
-      />
-      {{ secSelected }}
-      {{ frmSelected }}
-    </v-card-text>
-  </v-card>
-  <!-- Grupo Formularioes -->
-  <v-card-text>
-    <frm-section :sections="datosFrm.sections" />
-  </v-card-text>
+
+  {{ subfrm }}
 </template>
 
 <script>
-import ListBox from "@/components/formsUtils/ListBox.vue";
-import TableDataUpDel from "@/components/formsUtils/TableDataUpDel.vue";
-import FrmSection from "@/components/formsUtils/FrmSection.vue";
+import BtnNewForms from '../inputs/BtnNewForms.vue';
+import TextfieldForms from '../inputs/TextfieldForms.vue';
 
-import { getDataFrm } from "@/service/data/datos";
+import * as srv from "@/service/SaveData"
+import * as get from "@/service/GetData"
+import ListBoxForms from '../inputs/ListBoxForms.vue';
+import CheckForms from '../inputs/CheckForms.vue';
 
-import { SNIS } from "@/service/data/snis";
-import { HET } from "@/service/data/het";
 
 export default {
-  components: { ListBox, TableDataUpDel, FrmSection },
-  data: () => ({
-    secSelected: { value: 0, title: "Grupo Formulario 000" },
-    secItems: [
-      { value: 0, title: "Grupo Formulario 000" },
-      { value: 1, title: "Grupo Formulario 001" },
-      { value: 2, title: "Grupo Formulario 002" },
-      { value: 3, title: "Grupo Formulario 003" },
-    ],
-    frmSelected: { value: 0, title: "formu 000" },
-    frmItems: [
-      { value: 0, title: "formu 000" },
-      { value: 1, title: "formu 001" },
-      { value: 2, title: "formu 002" },
-      
-    ],
-    items: [
-      { id: 100, name: "formulario XX", calories: 159 },
-      { id: 101, name: "seccion YYY", calories: 237 },
-    ],
-    //datosFrm: null,
-    datosFrm: [],
-  }),
-  methods: {
-    onChangeSec(data) {
-      this.secSelected = data;
-    },
-    onChangeFrm(data) {
-      this.frmSelected = data;
-      this.datosFrm = null
-      switch (this.frmSelected.value) {
-        case 0:
-        this.datosFrm = getDataFrm();
-          break;
-          case 1:
-        this.datosFrm = SNIS;
-          break;
-          case 2:
-        this.datosFrm = HET;
-          break;  
-        default:
-        this.datosFrm = getDataFrm();
-          break;
-      }
-    },
-    modifySecFrm(idx) {
-      alert("idx para moduifcoa:" + idx);
-    },
-    deleteSecFrm(idx) {
-      alert("idx para eliminar:" + idx);
-    },
-    initData() {
-      this.datosFrm = getDataFrm();
-      console.log(this.datosFrm);
-    },
-  },
+  name:"",
+    components: { TextfieldForms, BtnNewForms, ListBoxForms, CheckForms },
+    data : () =>({
+      subfrm: {},
+      message:"",
+      enferSelected:{},
+      enferItems: [],
+      frmopsSelected:{},
+      frmopsItems: [],
+      grpSelected: {},
+      grpItems:[],
 
-  mounted() {
-    this.initData();
-    /*this.datosService.getDatos.then((datosFrm) => {
-              this.datosFrm = datosFrm;
-          });
-      */
-  },
-};
+    }),
+    methods:{
+      
+      setValues(data){
+        const aux = {...this.subfrm}
+        this.subfrm= { ...aux, ...data}
+      }, 
+      async initialData(){
+        let aux = await get.getEnfermedad()
+        this.enferSelected = aux.selected
+        this.enferItems = aux.items
+       
+        aux= await get.getfrmOptions()
+        this.frmopsSelected = aux.selected
+        this.frmopsItems = aux.items
+
+        const res = await get.getGrupoForms();       
+      
+      this.grpItems =  res.items
+      this.grpSelected = res.selected
+
+      },
+      async save(){
+        //envia datos
+        const datos = {
+          grupo_formulario_id:this.subfrm.group, 
+          cod_enfermerdad: this.subfrm.enfermedad,
+          codigo_formulario: this.subfrm.cod_frm, 
+          nombre_formulario: this.subfrm.name_frm, 
+          descripcion: this.subfrm.description,
+          opcionales: this.subfrm.opcionales
+        }
+
+        await srv.registrarFrm(datos)
+        this.message = "elemento guardado"
+    }
+},
+created(){
+  this.initialData()
+}
+}
 </script>
 
-<style></style>
+<style>
+
+</style>

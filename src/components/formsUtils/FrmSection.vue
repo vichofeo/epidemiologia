@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto text-body-1" max-width="99%" density="compact" elevation="1">
-    <h3>Agregar nueva Seccion al formulario (BotonPopup)</h3>
+    <h3>Agregar nueva Seccion al formulario <btn-dialog :type="'S'" :onClick="secondFunction"/></h3>
 
     <v-divider />
     <v-card-text>
@@ -22,7 +22,7 @@
             </v-row>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <h3>Agregar Nueva pregunta  <btn-dialog :type="'P'"/> </h3>
+            <h3>Agregar Nueva pregunta  <btn-dialog :type="'P'" :onClick="hereditaryFunction"/> </h3>
             
             <frm-question :questions="obj.questions" :type="obj.type"/>
           </v-expansion-panel-text>
@@ -43,10 +43,14 @@ import BtnDialog from "../inputs/BtnDialog.vue";
  *
  */
 export default {
-  components: { FrmQuestion, BtnDialog },
-  props: {
+  name:"FrmMaker",
+  props:{
     sections: { type: Array, default: [] },
+    hereditaryFunction:{type: Function, default() {return null } },
+    secondFunction:{type: Function, default() {return null } }
   },
+  components: { FrmQuestion, BtnDialog },
+  
   mounted() {},
 };
 </script>

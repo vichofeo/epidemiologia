@@ -1,5 +1,6 @@
 <template>
   <v-card class="mx-auto">
+    tab:::{{ tab }}
     <v-layout>
       <v-app-bar density="compact" :elevation="1">
         <v-tabs
@@ -23,11 +24,17 @@
           <v-row dense>
             <v-col cols="12" xs="12" sm="12" xl="12" md="12" lg="12">
             <v-window v-model="tab">
-              <v-window-item value="t1"> <frm-maker /> </v-window-item>
+              <v-window-item value="t1"> <frm-config :hereditaryFunction="clickTab" :secondFunction="clickTab"/> </v-window-item>
 
               <v-window-item value="t2"> <frm-view /> </v-window-item>
 
-              <v-window-item value="t3"> Three gfdg dfgdfgdf g dgdfgdfg</v-window-item>
+              <v-window-item value="t3"> Three gfdg dfgdfgdf g </v-window-item>
+              <v-window-item value="t4"> 
+                <frm-group-maker v-if="typeForm=='G'"/>
+                <frm-maker v-if="typeForm=='F'"/>
+                <frm-section-maker v-if="typeForm=='S'"/>
+                <question-answer-form :hereditaryFunction="saveQuestion" v-if="typeForm=='P'" />
+                </v-window-item>
             </v-window>
           </v-col>
           </v-row>
@@ -39,8 +46,12 @@
 
 <script>
 import QuestionAnswerForm from '@/components/formsUtils/QuestionAnswerForm.vue';
-import FrmMaker from '@/components/formsUtils/FrmMaker.vue';
+import FrmConfig from '@/components/formsUtils/FrmConfig.vue';
 import FrmView from '@/components/formsUtils/FrmView.vue';
+import FrmSectionMaker from '@/components/formsUtils/FrmSectionMaker.vue';
+import FrmMaker from '@/components/formsUtils/FrmMaker.vue'
+import FrmGroupMaker from '@/components/formsUtils/FrmGroupMaker.vue';
+
 /**
  * 0  -> 1 radio
  * 1  -> 2 check
@@ -50,14 +61,23 @@ import FrmView from '@/components/formsUtils/FrmView.vue';
  */
 
 export default {
-components:{QuestionAnswerForm, FrmMaker, FrmView},
+components:{ QuestionAnswerForm, FrmConfig, FrmView, FrmSectionMaker, FrmMaker, FrmGroupMaker},
   data: () => ({
     tab: null,
+    typeForm: 'P'
   }),
 
   computed: {},
 
-  methods: {},
+  methods: {
+    clickTab(op){
+      this.typeForm = op
+      this.tab= "t4"
+    },
+    saveQuestion(data){
+      this.tab= "t1"
+    }
+  },
 };
 </script>
 

@@ -8,44 +8,31 @@
     color="success"
     prepend-icon="mdi-newspaper-variant-multiple-outline"
     density="compact"
+    @click="clicked"
   >
-    Nuevo
+    {{label}}
   </v-btn>
-  <v-dialog
-    v-model="dialog"
-    :scrollable="true"
-    
-    persistent
-    :fullscreen="true"
-      :scrim="false"
-      activator="parent"
-      
-  >
-    <v-card>
-      <v-toolbar dark color="#1D62A1"  class="text-white">
-        <v-toolbar-title>Tools</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn icon dark @click="dialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-      <question-answer-form v-if="type=='P'"/>
-      <v-divider></v-divider>
-      
-    </v-card>
-  </v-dialog>
+  
 </template>
 
 <script>
 import QuestionAnswerForm from "@/components/formsUtils/QuestionAnswerForm.vue";
 export default {
   components: {QuestionAnswerForm},
-  props: {
+
+  props: {    
     type: { type: String, default: "P" },
+    onClick:{type: Function, default() {return null } },
+    label: {type: String, default: "Nuevo"}
   },
   data: () => ({
     dialog: false,
   }),
+  methods:{
+    clicked (){
+      this.onClick(this.type)
+    }
+  }
 };
 </script>
 

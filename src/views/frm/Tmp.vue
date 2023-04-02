@@ -1,5 +1,5 @@
 <template>
-  <laboratorio/>
+<contactos/>  
   excel
   <div>
 
@@ -17,10 +17,13 @@
 import  readXlsxFile  from "read-excel-file"
 
 import * as XLSX from "xlsx"
-import Laboratorio from '@/components/generics/Laboratorio.vue'
+import Vacunas from '@/components/generics/Vacunas.vue'
+import Contactos from '@/components/generics/Contactos.vue'
+
 
 export default {
-  components: { Laboratorio },
+  components: { Vacunas, Contactos },
+
 
   data: () => ({
     items: [],
