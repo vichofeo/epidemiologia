@@ -1,8 +1,6 @@
 <template>
   <v-row dense no-gutters >
-    <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
-      <list-box-forms :label="`Seleccione Grupo Formulario`" :selected="grpSelected" :items="grpItems" :name="`group`" :onChange="setValues"/>
-    </v-col>
+    
     <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
       <list-box-forms :label="`Seleccione para que enfermedad es el Formulario`" :selected="enferSelected" :items="enferItems" :name="`enfermedad`" :onChange="setValues"/>
     </v-col>
@@ -49,8 +47,7 @@ export default {
       enferItems: [],
       frmopsSelected:{},
       frmopsItems: [],
-      grpSelected: {},
-      grpItems:[],
+      
 
     }),
     methods:{
@@ -68,16 +65,13 @@ export default {
         this.frmopsSelected = aux.selected
         this.frmopsItems = aux.items
 
-        const res = await get.getGrupoForms();       
-      
-      this.grpItems =  res.items
-      this.grpSelected = res.selected
+        
 
       },
       async save(){
         //envia datos
         const datos = {
-          grupo_formulario_id:this.subfrm.group, 
+          grupo_formulario_id: this.$store.state.frmSelect.gfrm,
           cod_enfermerdad: this.subfrm.enfermedad,
           codigo_formulario: this.subfrm.cod_frm, 
           nombre_formulario: this.subfrm.name_frm, 

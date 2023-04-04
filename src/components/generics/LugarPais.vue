@@ -1,50 +1,64 @@
 <template>
-    <list-box-forms label="Pais" :items="paisItems" :selected="paisSelected" :on-change="getPais" />
-    <list-box-forms label="Departamento" :items="dptoItems" :selected="dptoSelected" :on-change="getDptos" />
-    <list-box-forms label="Municipio" :items="muniItems" :selected="muniSelected" :on-change="setMuni" />
+    <list-box label="Pais" :items="paisItems" :selected="paisSelected" :on-change="getDptos" />
+    <list-box label="Departamento" :items="dptoItems" :selected="dptoSelected" :on-change="getMuni" />
+    <list-box label="Municipio" :items="muniItems" :selected="muniSelected" :on-change="setMuni" />
 </template>
 
 <script>
-import ListBoxForms from '../inputs/ListBoxForms.vue'
+
+import * as srv from '@/service/GetData'
+import ListBox from '../formsUtils/ListBox.vue'
 export default {
-    components: { ListBoxForms },
+    props:{
+        name:{type:String, default:"lugar"},
+        setLugar:{type: Function, default() {return "Default function"; }}
+    },
+    components: {ListBox },
     data: () => ({
-        paisSelected: { value: 0, title: "Grupo Formulario 000" },
-        paisItems: [
-            { value: 0, title: "Grupo Formulario 000" },
-            { value: 1, title: "Grupo Formulario 001" },
-            { value: 2, title: "Grupo Formulario 002" },
-            { value: 3, title: "Grupo Formulario 003" },
-        ],
-        dptoSelected: { value: 0, title: "Grupo Formulario 000" },
-        dptoItems: [
-            { value: 0, title: "Grupo Formulario 000" },
-            { value: 1, title: "Grupo Formulario 001" },
-            { value: 2, title: "Grupo Formulario 002" },
-            { value: 3, title: "Grupo Formulario 003" },
-        ],
-        muniSelected: { value: 0, title: "Grupo Formulario 000" },
-        muniItems: [
-            { value: 0, title: "Grupo Formulario 000" },
-            { value: 1, title: "Grupo Formulario 001" },
-            { value: 2, title: "Grupo Formulario 002" },
-            { value: 3, title: "Grupo Formulario 003" },
-        ],
+        paisSelected: {  },
+        paisItems: [ ],
+        dptoSelected: {  },
+        dptoItems: [ ],
+        muniSelected: { },
+        muniItems: [  ],
     }),
     methods: {
-        getPais(pais) {
+        async getPais(data) {
             //obtiene lsta de paises, pais por defecto
-            //obtiene lista de departamentos con select por defecto
+            const results = await srv.getPais()
+            
+            this.paisSelected = results.selected
+            this.paisItems = results.items
+
+             this.getDptos(this.paisSelected)
         },
-        getDptos(dpto) {
+       async  getDptos(dato) {
+        
             //obtiene lista de municipios con select de Dpto y mun por defecto
+            const results = await srv.getDpto([dato])            
+            this.dptoSelected = results.selected
+            this.dptoItems = results.items
+            
+           this.getMuni(this.dptoSelected)
         },
-        setMuni(muni) {
+       async getMuni(dato) {
             //setea municipio defecto
+            const results = await srv.getMuni([this.paisSelected , dato])
+            this.muniSelected = results.selected
+            this.muniItems = results.items
+             this.setMuni(this.muniSelected)
+        },
+
+        setMuni(dato){
+            //dato: municipio seleccionado
+            this.setLugar({[`${this.name}`]: {pais:this.paisSelected.value, dpto:this.dptoSelected.value, muni:dato.value}})
         }
 
+    },
 
-    }
+    mounted() {
+      this.getPais()  
+    },
 }
 </script>
 

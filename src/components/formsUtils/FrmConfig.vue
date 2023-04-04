@@ -57,16 +57,17 @@
         :fmodify="modifySecFrm"
         :fdelete="deleteSecFrm"
       />
-      <br />{{ grpSelected }}<br />
-      {{ frmSelected }}
+      
     </v-card-text>
   </v-card>
   <!-- Grupo Formularioes -->
-  <v-card-text>
+  <v-card-text>    
     <frm-section
       :sections="datosFrm.sections"
+      :others="datosFrm.others"
       :hereditaryFunction="hereditaryFunction"
       :secondFunction="secondFunction"
+      v-if="frmSelected.value != '-1'"
     />
   </v-card-text>
 </template>
@@ -114,13 +115,20 @@ export default {
       this.grpSelected = data;
       const res = await srv.getFormularios(data);
 
-      this.frmSelected = res.selected;
-      this.frmItems = res.items;
+      const frmAux = res.selected;
+      this.frmItems = res.items;   
 
-      this.$store.commit('setFrm', this.frmSelected)
+      this.$store.commit('setFrm', {gfrm:data.value})  
+      this.onChangeFrm(frmAux)
+      
     },
-    onChangeFrm(data) {
+    async onChangeFrm(data) {
+      //alamcena en memoria el frmSeleccionado
+      const aux = this.$store.state.frmSelect.gfrm
+      this.$store.commit('setFrm', {gfrm:aux ,frm:data.value})
       this.frmSelected = data;
+      this.datosFrm = await srv.getfrmAllContent(this.frmSelected.value)
+
     },
     modifySecFrm(idx) {
       alert("idx para moduifcoa:" + idx);

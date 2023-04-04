@@ -19,9 +19,12 @@
 
   <question-answer-form :hereditaryFunction="setQuestions" />
 
-  {{ questions }}
-
+valor de subfrm:::
   {{ subfrm }}
+
+  <br/>
+  valor armado
+  {{ questions }}
 </template>
 
 <script>
@@ -60,13 +63,15 @@ export default {
       this.subfrm = { ...aux, ...data };
     },
     setQuestions(data) {
-      const aux = this.$store.state.frmSelect
+      const aux = this.$store.state.frmSelect.frm
       //guardar datos
       this.questions = data;
       this.subfrm
 
-      const datos ={question: data, formulario: aux.value, section: this.subfrm}
-      console.log("selecionado", this.$store.state.frmSelect)
+      const datos ={question: data, section: {...this.subfrm, formulario: aux}}
+      
+      //envia datos para su almacenamiento
+      srv.registrarSubFrmQuizz(datos)
     },
     async initialData() {
       

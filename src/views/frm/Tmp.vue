@@ -1,5 +1,5 @@
-<template>
-<contactos/>  
+<template> 
+
   excel
   <div>
 
@@ -19,10 +19,12 @@ import  readXlsxFile  from "read-excel-file"
 import * as XLSX from "xlsx"
 import Vacunas from '@/components/generics/Vacunas.vue'
 import Contactos from '@/components/generics/Contactos.vue'
+import FrmOtherMaker from '@/components/formsUtils/FrmOtherMaker.vue'
+
 
 
 export default {
-  components: { Vacunas, Contactos },
+  components: { Vacunas, Contactos, FrmOtherMaker, LugarInfeccion },
 
 
   data: () => ({

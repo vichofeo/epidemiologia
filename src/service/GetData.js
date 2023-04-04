@@ -26,6 +26,35 @@ export const getTypeQuestion = async ()=>{
     const res =  await http().get('/typequestion')    
     return res.data
 }
+
+export const getfrmAllContent = async(id)=>{
+    const res = await http().get('formulario/'+id)
+    return res.data
+}
+//***********dptos-minis */
+export const getPais = async (data)=>{    
+    const res =  await http().post('/pais', data)    
+    return res.data
+}
+export const getDpto = async (data)=>{    
+    const res =  await http().post('/dpto', data)    
+    return res.data
+}
+export const getMuni = async (data)=>{    
+    const res =  await http().post('/muni', data)    
+    return res.data
+}
+
+//--------------- GET DE GESTORES *****
+export const getGestores = async (data)=>{    
+    const res =  await http().post('/gestores', data)    
+    return res.data
+}
+export const getEstablecimientos = async (data)=>{    
+    const res =  await http().post('/establecimientos', data)    
+    return res.data
+}
+
 //---------------------------------
 //devuelve datos por departamento seleccionado
 export const getDptosByDpto = async(dpto)=>{

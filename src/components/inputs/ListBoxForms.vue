@@ -29,7 +29,7 @@
   </template>
   
   <script>
-  import { reactive, ref } from "vue";
+  
   export default {
     props: {
       items: { type: Array, default: [] },

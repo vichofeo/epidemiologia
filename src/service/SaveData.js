@@ -10,6 +10,18 @@ export const registrarFrm = async (datos)=>{
     return http().post('/frm', datos)
 }
 
+export const registrarSubFrmQuizz = async (datos)=>{
+    return http().post('/secfrmquiz', datos)
+}
+
+export const registrarQuizzAnswers = async (datos)=>{
+    return http().post('/quizz', datos)
+}
+
+export const registrarEsaludFrm = async (datos)=>{
+    return http().post('/esaludFrm', datos)
+}
+
 export const baja = async (datos)=>{
 return  http().put('/beneficiario/ente-gestor', datos)
     

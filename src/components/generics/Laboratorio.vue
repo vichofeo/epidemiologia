@@ -1,6 +1,6 @@
 <template>
 
-<v-row dense no-gutters v-for="i in repeat">
+<v-row dense no-gutters v-for="i in repeat" :key="uuid">
     <v-col cols="3" xs="12" sm="6"  md="4" lg="3" xl="3">
   <list-box-forms :label="`Tipo de Muestra`" :selected="muestraSelected" :items="muestraItems" :onChange="onChange"/>
     </v-col>
@@ -33,6 +33,7 @@
 <script>
 import CalendarForms from '../inputs/CalendarForms.vue';
 import ListBoxForms from '../inputs/ListBoxForms.vue'
+import { v4 } from 'uuid';
 
 export default {
   components: { ListBoxForms,  CalendarForms },
@@ -44,6 +45,9 @@ data:()=>({
     {value:2, title:"Flema"}]
 }),
 methods:{
+  uuid(){
+return v4()
+  },
     onChange (datos){
 
     },

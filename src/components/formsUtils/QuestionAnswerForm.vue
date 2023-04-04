@@ -89,7 +89,7 @@ export default {
         type: this.select.value,
         answers: data
     }
-    this.hereditaryFunction({[`${this.name}`]:this.answer})
+    this.hereditaryFunction(this.answer)
    },
    async initialData(){
     const data =  await srv.getTypeQuestion()

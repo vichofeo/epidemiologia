@@ -1,11 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    variant="outlined"
-    :style="'border: 1px solid #1D62A1;'"
-    density="compact"
-    elevation="0"
-  >
+  <v-card class="mx-auto" variant="outlined" :style="'border: 1px solid #1D62A1;'" density="compact" elevation="0">
     <v-sheet outlined color="blue">
       <v-row dense no-gutters>
         <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
@@ -14,27 +8,18 @@
         <v-col cols="6" xs="5" sm="5" xl="6" md="6" lg="6">
           <v-row dense>
             <v-col cols="8">
-              <list-box
-                :label="`Seleccione un Grupo - Formulario`"
-                :items="secItems"
-                :selected="secSelected"
-                :onChange="onChangeSec"
-              />
+              <list-box :label="`Seleccione un Grupo - Formulario`" :items="grpItems" :selected="grpSelected"
+                :onChange="onChangeGrp" />
             </v-col>
             <v-col cols="4">
-              <v-btn color="success" variant="flat" size="small">Nuevo Grupo</v-btn>
+              <btn-dialog :type="'G'" :onClick="secondFunction" :label="`Nuevo grupo`" />
             </v-col>
           </v-row>
           <v-row dense>
             <v-col cols="8">
-              <list-box
-                :label="`Seleccione Formulario`"
-                :items="frmItems"
-                :selected="frmSelected"
-                :onChange="onChangeFrm"
-              /> </v-col
-            ><v-col cols="4">
-              <v-btn color="success" variant="flat" size="small">Nuevo Formulario</v-btn>
+              <list-box :label="`Seleccione Formulario`" :items="frmItems" :selected="frmSelected"
+                :onChange="onChangeFrm" /> </v-col><v-col cols="4">
+              <btn-dialog :type="'F'" :onClick="secondFunction" :label="`Nuevo Formulario`" />
             </v-col>
           </v-row>
         </v-col>
@@ -42,18 +27,28 @@
     </v-sheet>
 
     <v-card-text>
-      <v-card-title>{{ secSelected.title }}</v-card-title>
+      <v-card-title>{{ grpSelected.title }}</v-card-title>
       <v-card-subtitle>{{ frmSelected.title }}</v-card-subtitle>
     </v-card-text>
+
+    <v-card-text v-for="(obj, i) in datosFrm.others" :key="uuid">
+      <h3>{{ i + 1 }}.- {{ obj.title }}</h3>
+      <div >
+        <frm-other-maker :type="obj.type"/>
+      </div>
+    </v-card-text>
+
+    <v-card-text v-for="(obj, i) in datosFrm.sections" :key="uuid">
+      <h3>{{ i + 1 + datosFrm.others.length}}.- {{ obj.name_section }}</h3>
+      <div v-for="(o, j) in obj.questions" :key="uuid">
+        <h4>{{ i + 1 + datosFrm.others.length}}.{{ j + 1 }}.- {{ o.question }}</h4>
+                
+        <frm-answer :type="o.type" :answers="o.answers" />
+      </div>
+    </v-card-text>
+
   </v-card>
   <!-- Grupo Formularioes -->
-  <v-card-text v-for="(obj, i) in datosFrm.sections" :key="uuid">
-    <h3>{{ i + 1 }}.- {{ obj.name_section }}</h3>
-    <div v-for="(o, j) in obj.questions" :key="uuid">
-      <h4>{{ i + 1 }}.{{ j + 1 }}.- {{ o.question }}</h4>
-      <frm-answer :type="o.type" :answers="o.answers" />
-    </div>
-  </v-card-text>
 </template>
 
 <script>
@@ -61,32 +56,34 @@ import ListBox from "@/components/formsUtils/ListBox.vue";
 import TableDataUpDel from "@/components/formsUtils/TableDataUpDel.vue";
 import FrmSection from "@/components/formsUtils/FrmSection.vue";
 
+import BtnDialog from "../inputs/BtnDialog.vue";
 
+import * as srv from "@/service/GetData";
 import FrmAnswer from "./FrmAnswer.vue";
-
-import { getDataFrm } from "@/service/data/datos";
-import { SNIS } from "@/service/data/snis";
-import { HET } from "@/service/data/het";
-
-import { v4 as uuid } from "uuid"
+import FrmOtherMaker from "./FrmOtherMaker.vue";
 
 export default {
-  components: { ListBox, TableDataUpDel, FrmSection, FrmAnswer },
+  name: "FrmMaker",
+  props: {
+    hereditaryFunction: {
+      type: Function,
+      default() {
+        return null;
+      },
+    },
+    secondFunction: {
+      type: Function,
+      default() {
+        return null;
+      },
+    },
+  },
+  components: { ListBox, TableDataUpDel, FrmSection, BtnDialog, FrmAnswer, FrmOtherMaker },
   data: () => ({
-    secSelected: { value: 0, title: "Grupo Formulario 000" },
-    secItems: [
-      { value: 0, title: "Grupo Formulario 000" },
-      { value: 1, title: "Grupo Formulario 001" },
-      { value: 2, title: "Grupo Formulario 002" },
-      { value: 3, title: "Grupo Formulario 003" },
-    ],
-    frmSelected: { value: 0, title: "formu 000" },
-    frmItems: [
-      { value: 0, title: "formu 000" },
-      { value: 1, title: "formu 001" },
-      { value: 2, title: "formu 002" },
-      { value: 3, title: "formu 003" },
-    ],
+    grpSelected: {},
+    grpItems: [],
+    frmSelected: {},
+    frmItems: [],
     items: [
       { id: 100, name: "formulario XX", calories: 159 },
       { id: 101, name: "seccion YYY", calories: 237 },
@@ -95,51 +92,38 @@ export default {
     datosFrm: [],
   }),
   methods: {
-    uuid() {
-      return uuid();
-    },
-    onChangeSec(data) {
-      this.secSelected = data;
-    },
-    onChangeFrm(data) {
-      this.frmSelected = data;
-      this.datosFrm.length = 0
-      this.datosFrm = []
-      switch (this.frmSelected.value) {
-        case 0:
-          this.datosFrm = getDataFrm();
-          break;
-        case 1:
-          this.datosFrm = SNIS;
-          break;
-        case 2:
-          this.datosFrm = HET;
-          break;
-        default:
-          this.datosFrm = getDataFrm();
-          break;
-      }
+    async onChangeGrp(data) {
+      this.grpSelected = data;
+      const res = await srv.getFormularios(data);
+
+      const frmAux = res.selected;
+      this.frmItems = res.items;
+
+
+      this.onChangeFrm(frmAux)
 
     },
-    modifySecFrm(idx) {
-      alert("idx para moduifcoa:" + idx);
+    async onChangeFrm(data) {
+      //alamcena en memoria el frmSeleccionado
+      const aux = this.$store.state.frmSelect.gfrm
+
+      this.frmSelected = data;
+      this.datosFrm = await srv.getfrmAllContent(this.frmSelected.value)
+
     },
-    deleteSecFrm(idx) {
-      alert("idx para eliminar:" + idx);
-    },
-    initData() {
-      this.datosFrm = []
-      this.datosFrm = getDataFrm();
-      console.log(this.datosFrm);
+
+    async initData() {
+      const res = await srv.getGrupoForms();
+
+      this.grpItems = res.items;
+      this.grpSelected = res.selected;
+
+      this.onChangeGrp(this.grpSelected);
     },
   },
 
-  mounted() {
+  created() {
     this.initData();
-    /*this.datosService.getDatos.then((datosFrm) => {
-              this.datosFrm = datosFrm;
-          });
-      */
   },
 };
 </script>

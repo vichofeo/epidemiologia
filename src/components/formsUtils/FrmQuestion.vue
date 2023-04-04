@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" density="compact" v-for="(obj, i) in questions">
+  <v-card class="mx-auto" density="compact" v-for="(obj, i) in questions">    
     <v-card-item class="text-body-1">
       <v-toolbar density="compact" rounded>
         <v-toolbar-title class="text-subtitle-2">{{ obj.question }}</v-toolbar-title>
@@ -11,6 +11,7 @@
       </v-toolbar>
     </v-card-item>
     <v-card-text>
+      
       <frm-answer :type="obj.type" :answers="obj.answers" />
     </v-card-text>
   </v-card>
