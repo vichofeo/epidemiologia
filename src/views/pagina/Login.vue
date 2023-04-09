@@ -58,9 +58,14 @@ export default {
                         //Guardar el token en LocalStorage
                         localStorage.setItem("token", btoa(JSON.stringify(res.data)));
                         this.$store.commit('paqueton', res.data.pages)
+                        this.$store.commit('setUsr', res.data.usuario)
 
+                        if(res.data.frms[0].name_module)
+                        this.$store.commit('seteoFrms', res.data.frms)
+
+                        const destination =  res.data.pages[0].path_browser
                         
-                        this.$router.push("/frm");
+                        this.$router.push(destination);
                     } else {
                         Swal.fire("Error!", res.data.mensaje, "error");
                     }

@@ -35,11 +35,14 @@ export default {
   }),
   methods: {
     changeObjToArray() {
-      this.datos = this.items.map((obj, i) => {
+      if(this.items){
+        this.datos = this.items.map((obj, i) => {
         let aux = Object.values(obj)
         this.idCol[i] = aux.shift()        
         return aux
       });
+      }else this.datos=[]
+      
       
     },
 
@@ -50,6 +53,12 @@ export default {
   mounted() {
     this.changeObjToArray();
   },
+  items: {
+      deep: true,
+      handler: function (newValue, oldValue) {
+        this.items = newValue;
+      },
+    },
 };
 </script>
 

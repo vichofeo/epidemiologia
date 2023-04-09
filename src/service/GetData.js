@@ -31,6 +31,19 @@ export const getfrmAllContent = async(id)=>{
     const res = await http().get('formulario/'+id)
     return res.data
 }
+
+
+export const getReportUsr = async (data)=>{
+    
+    const res =  await http().post('/reportUsr', data)    
+    return res.data
+}
+export const getReportAll = async ()=>{
+    
+    const res =  await http().get('/reportAll')    
+    return res.data
+}
+
 //***********dptos-minis */
 export const getPais = async (data)=>{    
     const res =  await http().post('/pais', data)    
