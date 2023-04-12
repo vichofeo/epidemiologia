@@ -57,8 +57,11 @@ export default {
                         Swal.fire("Correcto!", "Correcto", "success");
                         //Guardar el token en LocalStorage
                         localStorage.setItem("token", btoa(JSON.stringify(res.data)));
-                        this.$store.commit('paqueton', res.data.pages)
+                        //this.$store.commit('paqueton', res.data.pages)
                         this.$store.commit('setUsr', res.data.usuario)
+
+                        //dispatch actions from store
+                        this.$store.dispatch('savePaqueton', res.data.pages )
 
                         if(res.data.frms[0].name_module)
                         this.$store.commit('seteoFrms', res.data.frms)

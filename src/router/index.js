@@ -105,17 +105,20 @@ const router = createRouter({
   routes,
 });
 
-
 export default router;
 
 /*
-axios.get( `${process.env.VUE_APP_API_DOMAIN}/wp-json/api/v1/routes`).then( r => r.data ).then(routes => {
-  routes.pages.forEach( (e) => {
+axios
+  .get(`${process.env.VUE_APP_API_DOMAIN}/wp-json/api/v1/routes`)
+  .then((r) => r.data)
+  .then((routes) => {
+    routes.pages.forEach((e) => {
       router.addRoutes([
-          {
-              path: `/${e.slug}`,
-              component: getComponent(e.template),
-          },
+        {
+          path: `/${e.slug}`,
+          component: getComponent(e.template),
+        },
       ]);
+    });
   });
-});*/
+*/

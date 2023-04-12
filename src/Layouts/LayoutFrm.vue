@@ -2,7 +2,8 @@
     <v-app>
         
         <left-menu-vue />
-        <v-main><router-view></router-view></v-main>
+        <v-main>
+            <router-view></router-view></v-main>
         <footer-vue />
     </v-app>
 </template>
