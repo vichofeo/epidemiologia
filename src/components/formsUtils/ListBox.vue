@@ -38,6 +38,9 @@ export default {
       this.onChange(this.select)
     }
   },
+  mounted() {
+    this.onchangeHere()
+  },
   watch: {
     selected: {
       deep: true,

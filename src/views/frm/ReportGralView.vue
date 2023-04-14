@@ -2,31 +2,27 @@
   <v-table density="compact">
     <thead>
       <tr>
-        <th
-          class="text-left"
-          v-for="value in [
-            'formulario',
-            'subformulario',
-            'enunciado',
-            'opcion',
-            'conteo',
-            'frms',
-          ]"
-          :key="uuid()"
-        >
+        <th class="text-left" v-for="value in [
+          'formulario',
+          'subformulario',
+          'enunciado',
+          'opcion',
+          'conteo',
+          'frms',
+        ]" :key="uuid()">
           {{ value }}
         </th>
-        
+
       </tr>
     </thead>
     <tbody>
       <tr v-for="(item, i) in items" :key="uuid()">
-        <td >{{ item.nombre_formulario }}</td>
-        <td >{{ item.nombre_subfrm }}</td>
-        <td >{{ item.enunciado }}</td>
-        <td >{{ item.respuesta }}</td>
-        <td >{{ item.respuestas }}</td>
-        <td >{{ item.frms }}</td>
+        <td>{{ item.nombre_formulario }}</td>
+        <td>{{ item.nombre_subfrm }}</td>
+        <td>{{ item.enunciado }}</td>
+        <td>{{ item.respuesta }}</td>
+        <td>{{ item.respuestas }}</td>
+        <td>{{ item.frms }}</td>
       </tr>
     </tbody>
   </v-table>
@@ -44,9 +40,9 @@ export default {
   }),
   methods: {
     async getData() {
-      
+
       this.items = await srv.getReportAll();
-      
+
     },
     changeObjToArray(items) {
       if (items) {
@@ -68,7 +64,7 @@ export default {
     deep: true,
     handler: function (newValue, oldValue) {
       this.items = newValue;
-      
+
     },
   },
 };

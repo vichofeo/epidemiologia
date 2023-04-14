@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+/*
 const pages = [
   {
     name_module: "Configuracion",
@@ -20,6 +20,11 @@ const pages = [
         path_browser: "report",
         name_module: "Reporte Gral",
         name_controller: "ReportGralView",
+      },
+      {
+        path_browser: "tmp",
+        name_module: "Temporal",
+        name_controller: "AdminModulePages",
       },
     ],
   },
@@ -76,7 +81,7 @@ const routes = pages.map((obj) => {
       };
     }),
   };
-});
+});*/
 
 routes.push({
   path: "/",
@@ -100,25 +105,56 @@ routes.push({
     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
 });
 
+//llena con las otras rutas
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
-export default router;
+//adiciona rutas desde base de datos
 
-/*
+
+function getComponent(folder, name_file){
+  let component = null
+  switch (folder) {
+    case 'frm':
+      component = import(`@/views/frm/${name_file}.vue`)
+      break;
+  case 'pageAdmin':
+    component = import(`@/views/pageAdmin/${name_file}.vue`)
+    break;
+    default:
+      break;
+  }
+  return component
+}
+
+
+path: obj.path_browser,
+    component: () => import(`@/Layouts/${obj.name_layout}.vue`),
+    children: obj.children.map((o) => {
+      return {
+        path: o.path_browser,
+        name: o.name_controller,
+        component: () => import(`@/views/frm/${o.name_controller}.vue`),
+      };
+    })
+
 axios
-  .get(`${process.env.VUE_APP_API_DOMAIN}/wp-json/api/v1/routes`)
+  .get(`localhost:3000/datamore`)
   .then((r) => r.data)
   .then((routes) => {
-    routes.pages.forEach((e) => {
+    routes.forEach((e) => {
       router.addRoutes([
         {
           path: `/${e.slug}`,
           component: getComponent(e.template),
+
         },
       ]);
     });
   });
-*/
+
+
+export default router;
