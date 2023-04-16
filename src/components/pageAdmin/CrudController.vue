@@ -31,7 +31,10 @@
                                     </v-col>
                                     <v-col cols="12" sm="6" md="6">
                                         <v-text-field v-model="editedItem.descripcion_submodulo" label="Breve descripcion"></v-text-field>
-                                    </v-col>                                    
+                                    </v-col>   
+                                    <v-col cols="12" sm="6" md="6">
+                                        <v-text-field v-model="editedItem.base_folder" label="Folder Base"></v-text-field>
+                                    </v-col>                                   
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -83,26 +86,30 @@ export default {
         dialog: false,
         dialogDelete: false,
         headers: [            
-            { title: 'Modulo', key: 'controller' },
-            { title: 'Path Acceso', key: 'nombre_submodulo' },
-            { title: 'Layout', key: 'path_page' },
-            { title: 'Base Folder', key: 'descripcion_submodulo' },
+            { title: 'Clave SubModuloe', key: 'controller' },
+            { title: 'Nombre', key: 'nombre_submodulo' },
+            { title: 'Path Acceso', key: 'path_page' },
+            { title: 'Descripcion', key: 'descripcion_submodulo' },
+            { title: 'Base Folder', key: 'base_folder' },
             { title: 'Actions', key: 'actions', sortable: false },
+            
         ],
         desserts: [],
         editedIndex: -1,
         editedItem: {
-            nombre_modulo: '',
+            controller: '',
+            nombre_submodulo: '',
             path_page: '',
-            layout: '',
-            folder_base: '',
+            descripcion_submodulo: '',
+            base_folder:''
             
         },
         defaultItem: {
-            nombre_modulo: '',
+            controller: '',
+            nombre_submodulo: '',
             path_page: '',
-            layout: '',
-            folder_base: '',
+            descripcion_submodulo: '',
+            base_folder:''
         },
     }),
 

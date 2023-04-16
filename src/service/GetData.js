@@ -43,7 +43,11 @@ export const getReportAll = async ()=>{
     const res =  await http().get('/reportAll')    
     return res.data
 }
-
+//*************get data configpages */
+export const getCnfPage = async()=>{
+    const res = await http().get('/datamore')
+    return res.data
+}
 //***********dptos-minis */
 export const getPais = async (data)=>{    
     const res =  await http().post('/pais', data)    

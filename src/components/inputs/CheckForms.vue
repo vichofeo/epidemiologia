@@ -16,8 +16,8 @@ export default {
   props: {
     items: { type: Array, default: [] },
     onClick: { type: Function, default() { return "Default function"; }, },
-    name: { type: String, default: "default" },
-    label: { type: String, default: "default" },
+    name: { type: String, default: "defaultCheck" },
+    label: { type: String, default: "defaultCheck" },
     selected: { type: Array, default: [] }
   },
   data: () => ({

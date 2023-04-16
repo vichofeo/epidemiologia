@@ -38,7 +38,7 @@
           :title="o.name_module"
           :value="o.name_module"
           :to="`${menu.path_browser}/${o.path_browser}`"
-          :key="o.path_browser"
+          :key="o.path_browser"          
         ></v-list-item>
       </v-list>
 
@@ -49,6 +49,7 @@
       </template>
     </v-navigation-drawer>
   </section>
+  
 </template>
 
 <script>

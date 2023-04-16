@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import * as srv from "@/service/GetData"
+import axios from "axios";
 /*
 const pages = [
   {
@@ -24,7 +26,7 @@ const pages = [
       {
         path_browser: "tmp",
         name_module: "Temporal",
-        name_controller: "AdminModulePages",
+        name_controller: "Tmp",
       },
     ],
   },
@@ -59,7 +61,7 @@ const pages = [
       {
         path_browser: "p1",
         name_module: "Crear usuario",
-        name_controller: "Tmp",
+        name_controller: "TmpExcel",
       },
       {
         path_browser: "p2",
@@ -81,13 +83,14 @@ const routes = pages.map((obj) => {
       };
     }),
   };
-});*/
-
+});
+*/
+const routes = []
 routes.push({
   path: "/",
   name: "Login",
   component: () =>
-    import(/* webpackChunkName: "about" */ "../views/pagina/Login.vue"),
+    import(/* webpackChunkName: "Login" */ "../views/pagina/Login.vue"),
 });
 
 routes.push({
@@ -98,63 +101,61 @@ routes.push({
 });
 
 routes.push({
-  path: "/about",
-  name: "about",
-  alias: "/que",
+  path: "/home",
+  name: "home",
   component: () =>
-    import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    import(/* webpackChunkName: "home" */ "../views/HomeView.vue"),
 });
 
-//llena con las otras rutas
+
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
+
 //adiciona rutas desde base de datos
 
-
-function getComponent(folder, name_file){
-  let component = null
+function getComponent(folder, name_file) {
+  let component = null;
   switch (folder) {
-    case 'frm':
-      component = import(`@/views/frm/${name_file}.vue`)
+    case "frm":
+      component = ()=>import(`@/views/frm/${name_file}.vue`);
       break;
-  case 'pageAdmin':
-    component = import(`@/views/pageAdmin/${name_file}.vue`)
-    break;
+    case "pageAdmin":
+      component = ()=>import(`@/views/pageAdmin/${name_file}.vue`);
+      break;
     default:
+      component = ()=>import(`@/views/HomeView.vue`);
       break;
   }
-  return component
+  return component;
 }
 
-
-path: obj.path_browser,
-    component: () => import(`@/Layouts/${obj.name_layout}.vue`),
-    children: obj.children.map((o) => {
-      return {
-        path: o.path_browser,
-        name: o.name_controller,
-        component: () => import(`@/views/frm/${o.name_controller}.vue`),
-      };
-    })
-
 axios
-  .get(`localhost:3000/datamore`)
+  .get(`http://localhost:3000/datamore`)
   .then((r) => r.data)
   .then((routes) => {
+    console.log(".............", routes)
     routes.forEach((e) => {
-      router.addRoutes([
-        {
-          path: `/${e.slug}`,
-          component: getComponent(e.template),
-
-        },
-      ]);
+      let aux = {          
+        path: e.path_browser,
+        component: import(`@/Layouts/${e.name_layout}.vue`),
+        children: e.children.map((o) => {
+          return {
+            path: o.path_browser,
+            name: o.name_controller,
+            component: getComponent(o.base_folder, o.name_controller), //() => import(`@/views/frm/${o.name_controller}.vue`),
+          };
+        }),
+      }
+      router.addRoute(aux);
+      //router.push(e.path_browser)
     });
   });
+
 
 
 export default router;
