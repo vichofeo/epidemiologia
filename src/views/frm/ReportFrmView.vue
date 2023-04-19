@@ -1,4 +1,4 @@
-<template>AIIIII
+<template>
   <v-table density="compact">
     <thead>
       <tr>
@@ -30,6 +30,34 @@
       </tr>
     </tbody>
   </v-table>
+  <v-divider/>
+  <v-table density="compact">
+    <thead>
+      <tr>
+        <th class="text-left" v-for="value in [
+          'ficha',
+          'semana epidemiologica',
+          'dpto',
+          'gestor',
+          'sexo',
+          'positivos',
+        ]" :key="uuid()">
+          {{ value }}
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, i) in datos" :key="uuid()">
+        <td>{{ item.ficha }}</td>
+        <td>{{ item.semana_epidemiologica }}</td>
+        <td>{{ item.nombre_dpto }}</td>
+        <td>{{ item.nombre_institucion }}</td>
+        <td>{{ item.sexo }}</td>
+        <td>{{ item.positivos }}</td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
 
 <script>
@@ -45,7 +73,10 @@ export default {
   methods: {
     async getData() {
       const carga = { id: this.$store.state.usr.institucion.id };
-      this.items = await srv.getReportUsr(carga);
+      const results = await srv.getReportUsr(carga);
+      console.log("999999999", results)
+      this.items = results.frm
+       this.datos = results.conteo
       
     },
     changeObjToArray(items) {

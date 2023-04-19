@@ -19,7 +19,7 @@
 
 export default {
   props: {
-    name: { type: String, default: "defaultSelectBox" },
+    name: { type: String, default: null },
     items: { type: Array, default: [] },
     selected: { type: Object, default: () => { } },
     label: { type: String, default: "Unknow" },
@@ -36,7 +36,9 @@ export default {
   }),
   methods: {
     onchangeHere() {
+      if(this.name)
       this.onChange({[`${this.name}`]:this.select})
+      else this.onChange(this.select)
     }
   },
   mounted() {

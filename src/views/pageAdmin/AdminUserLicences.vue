@@ -3,13 +3,10 @@
         <v-layout>
             <v-app-bar density="compact" :elevation="1">
                 <v-tabs v-model="tab" density="compact" bg-color="transparent" color="basil">
-                    <v-tab value="t1" color="primary" bg-color="error">Modulos</v-tab>
-                    <v-tab value="t2">Registrar usuario</v-tab>
-                    <v-tab value="t3">Config Modulos</v-tab>
-                    <v-tab value="t4">Roles</v-tab>
-                    <v-tab value="t5">Rol-Modulo</v-tab>
+                    <v-tab value="t1" color="primary" bg-color="error">Credenciales</v-tab>
+                    
                 </v-tabs>
-                <v-app-bar-title>Config</v-app-bar-title>
+                <v-app-bar-title>Login Password</v-app-bar-title>
             </v-app-bar>
 
             <v-main>

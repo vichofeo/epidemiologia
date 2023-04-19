@@ -1,22 +1,33 @@
 <template>
-  <v-row no-gutters dense>
 
-    <v-col cols="10" xs="12" sm="10" md="10" lg="10" xl="10">
-      {{ label }}
-      <lugar-pais :set-lugar="setLugar" />
+  <v-card class="mx-auto" density="compact">
+    <v-card-item class="text-body-1">
+      <v-toolbar density="compact" rounded>
+        <v-toolbar-title class="text-subtitle-2">
+          {{ label }}
+        </v-toolbar-title>
+      </v-toolbar>
+    </v-card-item>
+    <v-card-text>
+      <div class="form-group">
+        <v-row dense  align="center">
+          <v-col cols="3" xs="12" sm="6" md="4" lg="3" xl="3">
+            <lugar-pais :set-lugar="setLugar" />
+          </v-col>
+          <v-col cols="3" xs="12" sm="6" md="4" lg="3" xl="3">
+            <v-text-field v-model="lugarPersona.ciudad" clearable label="Zona" placeholder="Barrio" />
+            <v-text-field v-model="lugarPersona.barrio" clearable label="Barrio" placeholder="Barrio" />
+          </v-col>
+          <v-col cols="3" xs="12" sm="6" md="4" lg="3" xl="3">
+            <calendar-forms :label="`Fecha Posible Contagio`" :setFunction="setfechaInfectado" />
+          </v-col>
+          
+        </v-row>        
+      </div>
+    </v-card-text>{{ antEpi }}
+  </v-card>
 
-    </v-col>
-    <v-col cols="3" xs="12" sm="6" md="4" lg="3" xl="3">
-      <v-text-field v-model="lugarPersona.ciudad" clearable label="Zona" placeholder="Barrio" />
-    </v-col>
-    <v-col cols="3" xs="12" sm="6" md="4" lg="3" xl="3">
-      <v-text-field v-model="lugarPersona.barrio" clearable label="Barrio" placeholder="Barrio" />
-    </v-col>
 
-    <calendar-forms :label="`Fecha Posible Contagio`" :setFunction="setfechaInfectado" />
-
-  </v-row>
-  {{ antEpi }}
 </template>
   
 <script>

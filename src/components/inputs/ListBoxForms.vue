@@ -12,7 +12,7 @@
         {{ data.item.title }}
       </v-chip>
     </template>
-  </v-combobox>{{ select }}
+  </v-combobox>
 </template>
   
 <script>
@@ -22,7 +22,7 @@ export default {
     items: { type: Array, default: [] },
     selected: { type: Object, default: () => ({ value: "-1", title: "-Sin Datos-" }) },
     label: { type: String, default: "Unknow" },
-    name: { type: String, default: "default" },
+    name: { type: String, default: null },
     onChange: {
       type: Function,
       default() {
@@ -37,11 +37,16 @@ export default {
   
   methods: {
     onchangeHere() {
-      const dato = { [`${this.name}`]: this.select.value }
-      this.onChange(dato)
+      if(this.name)
+      this.onChange({ [`${this.name}`]: this.select.value })
+      else
+      this.onChange(this.select.value)
     }
   },
-
+mounted() {
+  this.select = this.selected
+  this.onchangeHere()
+},
   watch: {
     selected: {
       deep: true,

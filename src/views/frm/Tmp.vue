@@ -1,44 +1,19 @@
 <template>
-    <v-card class="mx-auto">
-        <v-layout>
-            <v-app-bar density="compact" :elevation="1">
-                <v-tabs v-model="tab" density="compact" bg-color="transparent" color="basil">
-                    <v-tab value="t1" color="primary" bg-color="error">Modulos</v-tab>
-                    <v-tab value="t2">Registrar usuario</v-tab>
-                    <v-tab value="t3">Config Modulos</v-tab>
-                    <v-tab value="t4">Roles</v-tab>
-                    <v-tab value="t5">Rol-Modulo</v-tab>
-                </v-tabs>
-                <v-app-bar-title>Config</v-app-bar-title>
-            </v-app-bar>
-
-            <v-main>
-                <v-container fluid>
-                    <v-row dense>
-                        <v-col cols="12" xs="12" sm="12" xl="12" md="12" lg="12">
-                            <v-window v-model="tab">
-                                <v-window-item value="t1"> 
-                                <crud-license/>
-                                </v-window-item>
-
-                                
-                            </v-window>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-main>
-        </v-layout>
-    </v-card>
+<lugar-persona/>
 </template>
   
 <script>
 import Persona from '@/components/generics/Persona.vue';
 import CrudLicense from '@/components/pageAdmin/CrudLicense.vue';
+import Hospitalizacion from '@/components/generics/Hospitalizacion.vue';
+import Laboratorio from '@/components/generics/Laboratorio.vue';
+import Vacunas from '@/components/generics/Vacunas.vue';
+import LugarPersona from '@/components/generics/LugarPersona.vue';
 
 
 
 export default {
-  components: { Persona, CrudLicense },
+  components: { Persona, CrudLicense, Hospitalizacion, Laboratorio, Vacunas, LugarPersona },
     
     data: () => ({
         tab: null,
