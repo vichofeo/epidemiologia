@@ -135,7 +135,7 @@ function getComponent(folder, name_file) {
 }
 
 axios
-  .get(`http://localhost:3000/datamore`)
+  .get(`http://10.20.10.86:3000/datamore`)
   .then((r) => r.data)
   .then((routes) => {
     console.log(".............", routes)
